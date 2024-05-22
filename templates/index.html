@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>AI Health Center</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   </head>
 
@@ -43,24 +43,167 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/about">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/developer">Developer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/blog">Blog</a>
-                    </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
     <h1 class = 'text-center'> AI Health Care Center!</h1>
+
+    <div class="container mt-4 my-4" style="background:black; color:white; border-radius:15px; padding:50px;">
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <label for="symptoms">Enter your Symptoms</label>
+                <input type="text" class="form-control" name="symptoms" placeholder="use symtoms like itching, vomiting, coughing">
+            </div>
+            <br>
+            <button class="btn btn-danger" style ="width: 100%; padding: 14px; margin-bottom: 5px; ">Recommend</button>
+        </form>
+    </div>
+
+    {% if predicted_disease %}
+    <h1 class="text-center mt-4 my-4">Our AI powered results</h1>
+    <div class="container">
+        <div class="result-container">
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#diseasemodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: coral; color:black ;">Disease </button>
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#descriptionmodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: rgb(185, 255, 80); color:black ;">Description</button>
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#precautionmodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: rgb(62, 225, 219); color:black ;">Precaution</button>
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#medicationmodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: rgb(249, 64, 218); color:black ;">Medication</button>
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#workoutmodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: rgb(255, 80, 80); color:black ;">Workout</button>
+            <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#dietmodel" style="padding:4px; margin:5px 40px 5px 0; font-size: 20px; font-weight: bold; width: 150px; border-radius: 5px; background-color: rgb(59, 228, 47); color:black ;">Diet</button>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <div class="modal" id="diseasemodel" tabindex="-1", aria-labelledby="diseasemodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="diseasemodelLabel">Predicted Disease</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" >
+              <p>{{predicted_disease}}</p>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal" id="descriptionmodel" tabindex="-1", aria-labelledby="descriptionmodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="descriptionmodelLabel">Disease description</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{desc}}</p>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+      <div class="modal" id="precautionmodel" tabindex="-1", aria-labelledby="precautionmodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="precautionmodelLabel">Precautions</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul>
+                {% for i in pre%}
+                    <li>{{i}}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal" id="medicationmodel" tabindex="-1", aria-labelledby="medicationmodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="medicationmodelLabel">Medications</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for i in med %}
+                        <li> {{i}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal" id="workoutmodel" tabindex="-1", aria-labelledby="workoutmodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="workoutmodelLabel">Workouts</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                {% for i in workt %}
+                <li>{{ i }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="dietmodel" tabindex="-1", aria-labelledby="dietmodelLabel" aria-hidden="true"> 
+        <div class="modal-dialog" >
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #020606; color: azure;">
+              <h5 class="modal-title" id="dietmodelLabel">Workouts</h5>
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for i in die %}
+                        <li>{{ i }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   </body>
 </html>
