@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project aims to create a medicine recommendation system based on symptoms provided by the user. The system is built using machine learning models trained on a dataset of symptoms and their corresponding diagnoses. The frontend is designed using Bootstrap for an intuitive user interface.
+This project aims to create a medicine recommendation system based on symptoms provided by the user. The system is built using machine learning models trained on a dataset of symptoms and their corresponding diagnoses. The frontend is designed using Bootstrap for an intuitive user interface and the backend is built in flask.
 
 ## Table of Contents
 
@@ -95,9 +95,8 @@ The frontend is built using Bootstrap to provide a user-friendly interface. User
    print(f"Actual Label:  {Y_test}")
    ```
 
-3. **Running the Frontend:**
-   - Ensure you have a web server set up to serve the HTML files.
-   - Open the main HTML file in a browser to interact with the system.
+3. **Running the App:**
+   - Run main.py to run the flask application
 
 ## Dependencies
 
@@ -106,6 +105,7 @@ The frontend is built using Bootstrap to provide a user-friendly interface. User
 - scikit-learn
 - pickle
 - Bootstrap (for the frontend)
+- Flask
 
 
 ## Contributing
